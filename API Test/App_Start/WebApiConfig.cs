@@ -16,8 +16,8 @@ namespace API_Test
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                routeTemplate: "api/{controller}/{version}",
+                defaults: new { version = RouteParameter.Optional }
             );
         }
     }
