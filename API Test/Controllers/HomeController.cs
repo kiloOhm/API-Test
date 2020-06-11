@@ -10,7 +10,7 @@ namespace API_Test.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
+            ViewBag.Title = "NHibernate API Test";
 
             return View();
         }

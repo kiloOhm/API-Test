@@ -60,7 +60,7 @@ namespace Models
 
                 if (i == 0) sb.Append(" where ");
                 else sb.Append(" and ");
-                sb.Append($"{property.Name} = '{value}'");
+                sb.Append($@"{property.Name} = '{value}'");
                 i++;
             }
             IQuery query = session.CreateQuery(sb.ToString());
