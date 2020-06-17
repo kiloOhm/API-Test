@@ -16,7 +16,7 @@ namespace API_Test.Controllers
     public class AuftragController : ApiController
     {
         /// <summary>
-        /// Gibt eine List der Aufträge zurück, welche mit den parametern übereinstimmen.
+        /// Gibt eine Liste der Aufträge zurück, welche mit den Parametern übereinstimmen.
         /// Ohne Parameter werden alle Aufträge zurückgegeben.
         /// </summary>
         /// <param name="version"></param>
