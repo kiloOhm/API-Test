@@ -66,15 +66,24 @@ namespace Models
             //}
             //IQuery query = session.CreateQuery(sb.ToString());
 
-            Example example = Example.Create(auftrag)
-                .ExcludeZeroes()
-                .IgnoreCase()
-                .EnableLike();
-                
+            //Example example = Example.Create(auftrag)
+            //    .ExcludeZeroes()
+            //    .IgnoreCase()
+            //    .EnableLike();
+
+            //IList<Auftrag> auftraege = session
+            //    .CreateCriteria<Auftrag>()
+            //    .Add(example)
+            //    .List<Auftrag>();
+
             IList<Auftrag> auftraege = session
-                .CreateCriteria<Auftrag>()
-                .Add(example)
-                .List<Auftrag>();
+                .Query<Auftrag>()
+                .Where(a => a.ID == ((auftrag.ID == Guid.Empty) ? a.ID : auftrag.ID))
+                .Where(a => a.Kunde == (auftrag.Kunde ?? a.Kunde))
+                .Where(a => a.Position == (auftrag.Position ?? a.Position))
+                .Where(a => a.Volumen == ((auftrag.Volumen == 0)?a.Volumen:auftrag.Volumen))
+                .Where(a => a.Deadline == ((auftrag.Deadline == DateTime.MinValue)?a.Deadline:auftrag.Deadline))
+                .ToList();
             session.Close();
             return auftraege.ToList();
         }
