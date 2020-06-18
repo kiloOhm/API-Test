@@ -1,4 +1,5 @@
 ﻿using NHibernate;
+using NHibernate.Criterion;
 using NHibernate_implementation;
 using System;
 using System.Collections.Generic;
@@ -44,27 +45,36 @@ namespace Models
         public static List<Auftrag> getAuftrag(Auftrag auftrag)
         {
             ISession session = NHibernateHelper.GetCurrentSession();
-            StringBuilder sb = new StringBuilder("from Auftrag");
-            int i = 0;
-            foreach(PropertyInfo property in typeof(Auftrag).GetProperties())
-            {
-                if (!property.CanRead || (property.GetIndexParameters().Length > 0))
-                    continue;
+            //StringBuilder sb = new StringBuilder("from Auftrag");
+            //int i = 0;
+            //foreach(PropertyInfo property in typeof(Auftrag).GetProperties())
+            //{
+            //    if (!property.CanRead || (property.GetIndexParameters().Length > 0))
+            //        continue;
 
-                object value = property.GetValue(auftrag, null);
-                if (value is int) if ((int)value == 0) value = null;
-                if (value is Guid) if (((Guid)value) == Guid.Empty) value = null;
-                if (value is DateTime) if ((DateTime)value == DateTime.MinValue) value = null;
-                if (value == null)
-                    continue;
+            //    object value = property.GetValue(auftrag, null);
+            //    if (value is int) if ((int)value == 0) value = null;
+            //    if (value is Guid) if (((Guid)value) == Guid.Empty) value = null;
+            //    if (value is DateTime) if ((DateTime)value == DateTime.MinValue) value = null;
+            //    if (value == null)
+            //        continue;
 
-                if (i == 0) sb.Append(" where ");
-                else sb.Append(" and ");
-                sb.Append($@"{property.Name} = '{value}'");
-                i++;
-            }
-            IQuery query = session.CreateQuery(sb.ToString());
-            IList<Auftrag> auftraege = query.List<Auftrag>();
+            //    if (i == 0) sb.Append(" where ");
+            //    else sb.Append(" and ");
+            //    sb.Append($@"{property.Name} = '{value}'");
+            //    i++;
+            //}
+            //IQuery query = session.CreateQuery(sb.ToString());
+
+            Example example = Example.Create(auftrag)
+                .ExcludeZeroes()
+                .IgnoreCase()
+                .EnableLike();
+                
+            IList<Auftrag> auftraege = session
+                .CreateCriteria<Auftrag>()
+                .Add(example)
+                .List<Auftrag>();
             session.Close();
             return auftraege.ToList();
         }

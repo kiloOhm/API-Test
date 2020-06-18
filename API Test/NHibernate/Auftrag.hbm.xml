@@ -10,7 +10,7 @@
 		<property name="Kunde" />
 		<property name="Position" />
 		<property name="Volumen" />
-		<property name="Deadline" type="LocalDateTime" />
+		<property name="Deadline" type="DateTime" />
 	</class>
 
 </hibernate-mapping>
